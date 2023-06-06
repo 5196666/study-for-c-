@@ -1,5 +1,3 @@
-# study-for-c-
-
 # Learn C++
 
 ## c++语法
