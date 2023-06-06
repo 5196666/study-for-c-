@@ -1,7 +1,8 @@
 # Learn C++
 
-## c++语法
-[`std::forward`](#std::forward)
+## C++语法
+[std::forward](#std::forward)  
+[类型转换](#type_cast)  
 ###  std::forward
     `std::forward`完美转发，将左值引用转发后为左值引用，右值引用转发后为右值，避免右值被转换为左值的情况。
 #### 代码块：
@@ -61,3 +62,63 @@ int main(){
 // Array moved, memory at: 0x600002e60000。// A z = A(std::forward<T>(param)); 调用了移动构造函数
 
 ```
+
+### type_cast
+>`dynamic_cast`
+可向上转换（如基类指针指向派生类），也可向下转换。类型如下：
+```
+// dynamic_cast
+#include <iostream>
+#include <exception>
+using namespace std;
+
+class Base { virtual void dummy() {} };
+class Derived: public Base { int a; };
+
+int main () {
+  try {
+    Base * pba = new Derived;
+    Base * pbb = new Base;
+    Derived * pd;
+
+    pd = dynamic_cast<Derived*>(pba);
+    if (pd==0) cout << "Null pointer on first type-cast.\n";
+
+    pd = dynamic_cast<Derived*>(pbb);
+    if (pd==0) cout << "Null pointer on second type-cast.\n";
+
+  } catch (exception& e) {cout << "Exception: " << e.what();}
+  return 0;
+}
+```    
+result
+```
+Null pointer on second type-cast.
+```
+### static_cast
+staic_cast可向上转换也可向下转换，**无类型安全检查**需要程序员自己保证。（相关联类之间转换）
+
+### reinterpret_cast
+可以进行任意指针间的转换 ，还可转换为整数
+
+### const_cast
+const_cast 将常量指针转换为非常量，将常量指针作为非常量参数时使用它
+```
+// const_cast
+#include <iostream>
+using namespace std;
+
+void print (char * str)
+{
+  cout << str << '\n';
+}
+
+int main () {
+  const char * c = "sample text";
+  print ( const_cast<char *> (c) );
+  return 0;
+}
+```
+
+
+
